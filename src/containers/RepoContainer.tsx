@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {View, SafeAreaView, StyleSheet} from 'react-native';
 import {fetchRepos, starRepo} from '../redux/actions';
 import List from '../components/list/list';
 import ListItem from '../components/list/listItem';
@@ -36,9 +36,9 @@ export class RepoContainer extends Component<Props> {
   }
 
   renderItem(repo: Repo, index: number) {
-    console.log('item', repo, 'index', index);
     return (
       <ListItem
+        key={index.toString()}
         isStared={repo.stared}
         onStarPressed={() => this.handleStarRepo(repo.id)}
         name={repo.name}
@@ -51,10 +51,8 @@ export class RepoContainer extends Component<Props> {
 
   render() {
     return (
-      // eslint-disable-next-line react-native/no-inline-styles
       <SafeAreaView style={styles.safeAre}>
         <View style={styles.container}>
-          <Text>Test</Text>
           <List data={this.props.repos} renderItem={this.renderItem} />
         </View>
       </SafeAreaView>
