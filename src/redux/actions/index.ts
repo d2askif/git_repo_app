@@ -3,6 +3,10 @@ import {types} from './types';
 import {Repo} from '../store/types';
 
 export const fetchRepos = () => async (dispatch: Function) => {
+  dispatch({
+    type: types.APP_LOADING,
+    payload: true,
+  });
   await Axios.get('https://api.github.com/search/repositories?q=stars:>0').then(
     res => {
       console.log(res);
@@ -14,7 +18,10 @@ export const fetchRepos = () => async (dispatch: Function) => {
         avatar_url: item.owner.avatar_url,
         stared: false,
       }));
-
+      dispatch({
+        type: types.APP_LOADING,
+        payload: false,
+      });
       dispatch({
         type: types.GET_REPOS,
         payload: repos,

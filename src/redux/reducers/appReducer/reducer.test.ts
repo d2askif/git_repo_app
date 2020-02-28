@@ -1,5 +1,5 @@
 import {types} from '../../actions/types';
-import appReducer from './index';
+import appReducer from './reducer';
 
 describe('appReducer', () => {
   it('Should return default state', () => {
