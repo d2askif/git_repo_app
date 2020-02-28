@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {fetchRepos, starRepo} from '../redux/actions';
 import List from '../components/list/list';
 import ListItem from '../components/list/listItem';
 import {State, Repo} from '../redux/store/types';
+import ScreenContainer from './common/ScreenContainer';
 
 const styles = StyleSheet.create({
   safeAre: {
@@ -19,6 +20,8 @@ interface Props {
   fetchRepos: () => void;
   toggleRepoStar: (id: number) => void;
   repos: any;
+  appLoading: boolean;
+  appError: string;
 }
 
 export class RepoContainer extends Component<Props> {
@@ -50,18 +53,21 @@ export class RepoContainer extends Component<Props> {
   }
 
   render() {
+    const {appLoading, appError} = this.props;
     return (
-      <SafeAreaView style={styles.safeAre}>
+      <ScreenContainer appLoading={appLoading} appError={appError}>
         <View style={styles.container}>
           <List data={this.props.repos} renderItem={this.renderItem} />
         </View>
-      </SafeAreaView>
+      </ScreenContainer>
     );
   }
 }
 
 const mapStateToProps = (state: State) => ({
   repos: state.repos,
+  appLoading: state.app.loading,
+  appError: state.app.error,
 });
 
 const mapDispatchToProps = {
