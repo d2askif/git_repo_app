@@ -4,6 +4,7 @@ export type Repo = {
   avatar_url: string;
   description: string;
   stargazers_count: number;
+  stared: boolean;
 };
 
 export type State = {

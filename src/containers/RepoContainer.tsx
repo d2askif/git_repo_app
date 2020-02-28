@@ -33,14 +33,13 @@ export class RepoContainer extends Component<Props> {
   handleStarRepo(repoId: number) {
     const {toggleRepoStar} = this.props;
     toggleRepoStar(repoId);
-    console.log({repoId});
   }
 
   renderItem(repo: Repo, index: number) {
     console.log('item', repo, 'index', index);
     return (
       <ListItem
-        isStared
+        isStared={repo.stared}
         onStarPressed={() => this.handleStarRepo(repo.id)}
         name={repo.name}
         stargazers_count={repo.stargazers_count}

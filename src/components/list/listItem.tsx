@@ -92,7 +92,7 @@ const listItem = ({
       <View style={styles.star}>
         <Icon
           name="star"
-          color={isStared ? 'black' : 'grey'}
+          color={isStared ? 'black' : 'lightgrey'}
           size={20}
           type="font-awesome"
           onPress={onStarPressed}

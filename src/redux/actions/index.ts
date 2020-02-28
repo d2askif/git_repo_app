@@ -12,6 +12,7 @@ export const fetchRepos = () => async (dispatch: Function) => {
         description: item.description,
         stargazers_count: item.stargazers_count,
         avatar_url: item.owner.avatar_url,
+        stared: false,
       }));
 
       dispatch({
