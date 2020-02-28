@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
-import {Button} from 'react-native-elements';
+import Spinner from '../../components/common/spinner';
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -22,7 +22,7 @@ export default class ScreenContainer extends Component<Props> {
     this.renderMain = this.renderMain.bind(this);
   }
   renderAppLoading() {
-    return <Button type="clear" loading />;
+    return <Spinner />;
   }
   renderAppError() {}
 

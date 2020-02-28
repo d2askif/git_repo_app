@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, StyleSheet} from 'react-native';
-import {fetchRepos, starRepo} from '../redux/actions';
+import {fetchRepos, starRepo, loadMore} from '../redux/actions';
 import List from '../components/list/list';
 import ListItem from '../components/list/listItem';
 import {State, Repo} from '../redux/store/types';
 import ScreenContainer from './common/ScreenContainer';
+import Spinner from '../components/common/spinner';
 
 const styles = StyleSheet.create({
   safeAre: {
@@ -17,28 +18,42 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  fetchRepos: () => void;
+  getRepos: (url: string) => void;
+  getMoreRepos: (url: string) => void;
   toggleRepoStar: (id: number) => void;
   repos: any;
   appLoading: boolean;
+  appLoadingMore: boolean;
   appError: string;
+  url: string;
+  nextPageUrl: string;
 }
 
 export class RepoContainer extends Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.renderItem = this.renderItem.bind(this);
+    this.renderRepoItem = this.renderRepoItem.bind(this);
     this.handleStarRepo = this.handleStarRepo.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.renderListFooter = this.renderListFooter.bind(this);
   }
   componentDidMount() {
-    this.props.fetchRepos();
+    const {url, getRepos} = this.props;
+    getRepos(url);
   }
+
   handleStarRepo(repoId: number) {
     const {toggleRepoStar} = this.props;
     toggleRepoStar(repoId);
   }
+  handleLoadMore() {
+    const {nextPageUrl, getMoreRepos} = this.props;
+    console.log({getMoreRepos});
 
-  renderItem(repo: Repo, index: number) {
+    getMoreRepos(nextPageUrl);
+  }
+
+  renderRepoItem(repo: Repo, index: number) {
     return (
       <ListItem
         key={index.toString()}
@@ -51,13 +66,22 @@ export class RepoContainer extends Component<Props> {
       />
     );
   }
+  renderListFooter() {
+    const {appLoadingMore} = this.props;
+    return appLoadingMore ? <Spinner /> : null;
+  }
 
   render() {
     const {appLoading, appError} = this.props;
     return (
       <ScreenContainer appLoading={appLoading} appError={appError}>
         <View style={styles.container}>
-          <List data={this.props.repos} renderItem={this.renderItem} />
+          <List
+            loadMore={this.handleLoadMore}
+            data={this.props.repos}
+            renderItem={this.renderRepoItem}
+            ListFooterComponent={this.renderListFooter}
+          />
         </View>
       </ScreenContainer>
     );
@@ -65,14 +89,18 @@ export class RepoContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: State) => ({
-  repos: state.repos,
+  repos: state.repositories.repos,
+  url: state.repositories.url,
+  nextPageUrl: state.repositories.nextPage,
   appLoading: state.app.loading,
+  appLoadingMore: state.app.loadingMore,
   appError: state.app.error,
 });
 
 const mapDispatchToProps = {
-  fetchRepos,
+  getRepos: fetchRepos,
   toggleRepoStar: starRepo,
+  getMoreRepos: loadMore,
 };
 
 // eslint-disable-next-line prettier/prettier

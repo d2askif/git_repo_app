@@ -10,9 +10,15 @@ export type Repo = {
 export type App = {
   loading: boolean;
   error: string;
+  loadingMore: boolean;
+};
+export type Repository = {
+  repos: Array<Repo>;
+  nextPage: string;
+  url: string;
 };
 
 export type State = {
-  repos: Array<Repo>;
+  repositories: Repository;
   app: App;
 };

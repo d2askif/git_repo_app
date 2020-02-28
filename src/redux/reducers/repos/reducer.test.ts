@@ -1,11 +1,16 @@
 import {types} from '../../actions/types';
 import repoReducer from './reducer';
-import {Repo} from '../../store/types';
+import {Repository} from '../../store/types';
 
 describe('Repo reducer state', () => {
   it('Should return  default state', () => {
+    const initialState = {
+      repos: [],
+      nextPage: '',
+      url: 'https://api.github.com/search/repositories?q=stars:>0',
+    };
     const newState = repoReducer(undefined, {});
-    expect(newState).toEqual([]);
+    expect(newState).toEqual(initialState);
   });
 
   it('Should return new state if received action type', () => {
@@ -20,50 +25,38 @@ describe('Repo reducer state', () => {
         author: 'author 3',
       },
     ];
-    const action = {type: types.GET_REPOS, payload: repos};
+    const action = {type: types.GET_REPOS, payload: {repos}};
 
     const newState = repoReducer(undefined, action);
 
-    expect(newState).toEqual(repos);
-  });
-
-  it('Should append to the state', () => {
-    const initState = [
-      {
-        author: 'author 1',
-      },
-    ];
-
-    const repos = [
-      {
-        author: 'author 2',
-      },
-      {
-        author: 'author 3',
-      },
-    ];
-    const action = {type: types.GET_REPOS, payload: repos};
-
-    const newState = repoReducer(initState, action);
-
-    expect(newState).toEqual([...initState, ...repos]);
+    expect(newState.repos).toEqual(repos);
   });
 });
 describe('Repo staring', () => {
-  let newState: Array<Repo>;
+  let newState: Repository;
   beforeAll(() => {
-    const state = [
-      {
-        id: 1,
-        stargazers_count: 1,
-        stared: false,
-      },
-      {
-        id: 2,
-        stargazers_count: 2,
-        stared: false,
-      },
-    ];
+    const state = {
+      nextPage: '',
+      url: '',
+      repos: [
+        {
+          id: 1,
+          stargazers_count: 1,
+          name: '',
+          avatar_url: '',
+          description: '',
+          stared: false,
+        },
+        {
+          id: 2,
+          stargazers_count: 2,
+          stared: false,
+          name: '',
+          avatar_url: '',
+          description: '',
+        },
+      ],
+    };
     const action = {
       type: types.STAR_REPO,
       payload: 1,
@@ -71,28 +64,38 @@ describe('Repo staring', () => {
     newState = repoReducer(state, action);
   });
   it('Should increase rep star count  by 1', () => {
-    expect(newState[0].stargazers_count).toBe(2);
+    expect(newState.repos[0].stargazers_count).toBe(2);
   });
   it('Should set repo stared true', () => {
-    expect(newState[0].stared).toBeTruthy();
+    expect(newState.repos[0].stared).toBeTruthy();
   });
 });
 
 describe('Repo unstar a repo', () => {
-  let newState: Array<Repo>;
+  let newState: Repository;
   beforeAll(() => {
-    const state = [
-      {
-        id: 1,
-        stargazers_count: 1,
-        stared: true,
-      },
-      {
-        id: 2,
-        stargazers_count: 2,
-        stared: false,
-      },
-    ];
+    const state = {
+      nextPage: '',
+      url: '',
+      repos: [
+        {
+          id: 1,
+          stargazers_count: 1,
+          name: '',
+          avatar_url: '',
+          description: '',
+          stared: true,
+        },
+        {
+          id: 2,
+          stargazers_count: 2,
+          stared: false,
+          name: '',
+          avatar_url: '',
+          description: '',
+        },
+      ],
+    };
     const action = {
       type: types.STAR_REPO,
       payload: 1,
@@ -100,9 +103,9 @@ describe('Repo unstar a repo', () => {
     newState = repoReducer(state, action);
   });
   it('Should decrease rep star count  by 1', () => {
-    expect(newState[0].stargazers_count).toBe(0);
+    expect(newState.repos[0].stargazers_count).toBe(0);
   });
   it('Should set repo stared false', () => {
-    expect(newState[0].stared).toBeFalsy();
+    expect(newState.repos[0].stared).toBeFalsy();
   });
 });

@@ -3,14 +3,19 @@ import appReducer from './reducer';
 
 describe('appReducer', () => {
   it('Should return default state', () => {
+    const initialState = {
+      loading: false,
+      error: '',
+    };
     const newState = appReducer(undefined, {});
-    expect(newState).toEqual({});
+    expect(newState).toEqual(initialState);
   });
 
   it('Should set loading True', () => {
     const state = {
       loading: false,
       error: '',
+      loadingMore: false,
     };
     const action = {
       type: types.APP_LOADING,
@@ -24,6 +29,7 @@ describe('appReducer', () => {
     const state = {
       loading: true,
       error: '',
+      loadingMore: false,
     };
     const action = {
       type: types.APP_LOADING,
@@ -37,6 +43,7 @@ describe('appReducer', () => {
     const state = {
       loading: true,
       error: '',
+      loadingMore: false,
     };
     const action = {
       type: types.APP_ERROR,

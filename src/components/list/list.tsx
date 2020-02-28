@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: '100%',
-    backgroundColor: '#aaa',
+    backgroundColor: 'lightgray',
   },
   header: {
     marginTop: 20,
@@ -27,50 +27,35 @@ const styles = StyleSheet.create({
 type Props = {
   data: Array<any>;
   renderItem: Function;
-  ItemSeparatorComponent?: Function;
-  ListHeaderComponent?: Function;
-  ListFooterComponent?: Function;
+  ListFooterComponent: Function;
+  loadMore: () => void;
   style?: any;
 };
 
 const SelectList = ({
   data,
   renderItem,
-}: /* ItemSeparatorComponent,
-  ListHeaderComponent,
+  loadMore,
   ListFooterComponent,
-  style, */
-Props) => (
+}: Props) => (
   <View style={styles.container}>
-    {/* <FlatList
-      data={data}
-      renderItem={({item, index}) => renderItem(item, index)}
-      keyExtractor={(_val, index) => index.toString()}
-      ItemSeparatorComponent={ItemSeparatorComponent}
-      vertical
-      scrollEnabled
-      horizontal={false}
-      contentContainerStyle={[styles.content, style]}
-      ListFooterComponent={ListFooterComponent}
-    /> */}
     <FlatList
       data={data}
       renderItem={({item, index}) => renderItem(item, index)}
       keyExtractor={(_val, index) => index.toString()}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListHeaderComponent={() => <View style={styles.header} />}
+      ListFooterComponent={ListFooterComponent()}
       scrollEnabled
       horizontal={false}
       contentContainerStyle={[styles.content]}
+      onEndReached={() => {
+        loadMore();
+      }}
+      onEndReachedThreshold={0.1}
+      removeClippedSubviews
     />
   </View>
 );
-
-SelectList.defaultProps = {
-  ItemSeparatorComponent: () => <View style={styles.separator} />,
-  ListHeaderComponent: () => <View style={styles.header} />,
-  ListFooterComponent: () => null,
-  style: {},
-};
 
 export default SelectList;
