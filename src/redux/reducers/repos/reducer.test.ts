@@ -1,7 +1,7 @@
 import {types} from '../../actions/types';
 import repoReducer from './reducer';
 
-describe('Repo reducer', () => {
+describe('Repo reducer state', () => {
   it('Should return return default state', () => {
     const newState = repoReducer(undefined, {});
     expect(newState).toEqual([]);
@@ -47,4 +47,6 @@ describe('Repo reducer', () => {
 
     expect(newState).toEqual([...initState, ...repos]);
   });
+
+  it('Should increase the star of a repo by 1', () => {});
 });
