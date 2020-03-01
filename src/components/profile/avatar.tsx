@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Avatar} from 'react-native-elements';
 
@@ -13,10 +14,12 @@ interface Props {
   image_url: {uri: string};
   name: string;
   size: 'small' | 'medium' | 'large' | 'xlarge' | undefined;
+  style?: any;
 }
 
-const ContactAvatar = ({image_url, name, size}: Props) => (
+const ContactAvatar = ({image_url, name, size, style}: Props) => (
   <Avatar
+    containerStyle={style}
     size={size}
     rounded
     title={getFirstLetter(name)}

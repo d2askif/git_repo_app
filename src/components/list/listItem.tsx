@@ -1,8 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import Avatar from '../profile/avatar';
 import {Icon} from 'react-native-elements';
+import {truncateNumber} from '../../utils/TruncateNumber';
 
 const screenWidth = Dimensions.get('screen').width;
 
@@ -10,6 +17,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: 'white',
     padding: 16,
   },
   avatar_name: {
@@ -33,26 +41,17 @@ const styles = StyleSheet.create({
   },
   description_text: {
     fontSize: 14,
-    color: '#6699cc',
-    backgroundColor: '#efef',
+    color: '#ACACC1',
     letterSpacing: 1.0,
     textAlign: 'left',
   },
   star: {
+    paddingTop: 16,
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });
-
-function truncateNumber(num: number) {
-  if (num < 1e3) {
-    return num;
-  }
-  if (num >= 1e3) {
-    return +(num / 1e3).toFixed(1) + 'K';
-  }
-}
 
 interface Props {
   onStarPressed: () => void;
@@ -62,6 +61,7 @@ interface Props {
   stargazers_count: number;
   repo_name?: string;
   isStared: boolean;
+  onPress: () => void;
 }
 
 const listItem = ({
@@ -71,35 +71,38 @@ const listItem = ({
   description,
   stargazers_count,
   onStarPressed,
+  onPress,
 }: Props) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.avatar_name}>
-        <View style={styles.avatar}>
-          <Avatar size="large" name={name} image_url={{uri: avatar_url}} />
+    <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
+      <View style={styles.container}>
+        <View style={styles.avatar_name}>
+          <View style={styles.avatar}>
+            <Avatar size="large" name={name} image_url={{uri: avatar_url}} />
+          </View>
+          <View style={styles.name_description}>
+            <View>
+              <Text style={styles.name_text}>{name}</Text>
+            </View>
+            <View>
+              <Text numberOfLines={3} style={styles.description_text}>
+                {description}
+              </Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.name_description}>
-          <View>
-            <Text style={styles.name_text}>{name}</Text>
-          </View>
-          <View>
-            <Text numberOfLines={3} style={styles.description_text}>
-              {description}
-            </Text>
-          </View>
+        <View style={styles.star}>
+          <Icon
+            name="star"
+            color={isStared ? 'black' : 'lightgrey'}
+            size={20}
+            type="font-awesome"
+            onPress={onStarPressed}
+          />
+          <Text> {truncateNumber(stargazers_count)}</Text>
         </View>
       </View>
-      <View style={styles.star}>
-        <Icon
-          name="star"
-          color={isStared ? 'black' : 'lightgrey'}
-          size={20}
-          type="font-awesome"
-          onPress={onStarPressed}
-        />
-        <Text> {truncateNumber(stargazers_count)}</Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

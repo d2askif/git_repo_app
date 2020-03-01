@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: '100%',
-    backgroundColor: 'lightgray',
   },
   header: {
     marginTop: 20,
@@ -47,10 +46,13 @@ const SelectList = ({
       ListHeaderComponent={() => <View style={styles.header} />}
       ListFooterComponent={ListFooterComponent()}
       scrollEnabled
+      showsVerticalScrollIndicator={false}
       horizontal={false}
       contentContainerStyle={[styles.content]}
-      onEndReached={() => {
-        loadMore();
+      onEndReached={({distanceFromEnd}) => {
+        if (distanceFromEnd > 0) {
+          loadMore();
+        }
       }}
       onEndReachedThreshold={0.1}
       removeClippedSubviews

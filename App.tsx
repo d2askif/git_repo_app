@@ -1,7 +1,7 @@
 import React from 'react';
-import RepoContainer from './src/containers/RepoContainer';
 import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
+import AppNavigator from './src/navigation';
 class App extends React.Component {
   componentDidMount() {
     /*  Axios.get(
@@ -11,7 +11,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <RepoContainer />
+        <AppNavigator />
       </Provider>
     );
   }

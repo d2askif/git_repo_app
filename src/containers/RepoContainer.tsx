@@ -7,39 +7,80 @@ import ListItem from '../components/list/listItem';
 import {State, Repo} from '../redux/store/types';
 import ScreenContainer from './common/ScreenContainer';
 import Spinner from '../components/common/spinner';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StackParamList} from '../navigation';
+import Error from '../components/common/Error';
+import Header from '../components/common/header';
 
 const styles = StyleSheet.create({
   safeAre: {
     flex: 1,
+    backgroundColor: 'white',
   },
   container: {
     flex: 1,
+    backgroundColor: '#F2F7FE',
   },
 });
+type RepoScreenNavigationProp = StackNavigationProp<StackParamList, 'Home'>;
 
 interface Props {
   getRepos: (url: string) => void;
   getMoreRepos: (url: string) => void;
   toggleRepoStar: (id: number) => void;
-  repos: any;
+  repos: Array<Repo>;
   appLoading: boolean;
   appLoadingMore: boolean;
   appError: string;
   url: string;
   nextPageUrl: string;
+  navigation: RepoScreenNavigationProp;
 }
 
-export class RepoContainer extends Component<Props> {
+interface RepoState {
+  showOnlyStared: boolean;
+  search: string;
+}
+
+export class RepoContainer extends Component<Props, RepoState> {
   constructor(props: Props) {
     super(props);
     this.renderRepoItem = this.renderRepoItem.bind(this);
     this.handleStarRepo = this.handleStarRepo.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.renderListFooter = this.renderListFooter.bind(this);
+    this.showOnlyStaredRepos = this.showOnlyStaredRepos.bind(this);
+    this.handleNavigation = this.handleNavigation.bind(this);
+    this.state = {showOnlyStared: false, search: ''};
   }
   componentDidMount() {
     const {url, getRepos} = this.props;
+
+    this.props.navigation.setOptions({
+      header: this.renderHeader,
+    });
+
     getRepos(url);
+  }
+
+  componentDidUpdate() {
+    this.props.navigation.setOptions({
+      header: this.renderHeader,
+    });
+  }
+
+  handelSearch = (text: string) => {
+    this.setState({...this.state, search: text});
+  };
+
+  handleNavigation(index: number) {
+    const {navigation, repos} = this.props;
+    navigation.navigate('Detail', {repo: repos[index]});
+  }
+
+  showOnlyStaredRepos() {
+    const {showOnlyStared} = this.state;
+    this.setState({showOnlyStared: !showOnlyStared});
   }
 
   handleStarRepo(repoId: number) {
@@ -48,14 +89,25 @@ export class RepoContainer extends Component<Props> {
   }
   handleLoadMore() {
     const {nextPageUrl, getMoreRepos} = this.props;
-    console.log({getMoreRepos});
-
     getMoreRepos(nextPageUrl);
   }
+  renderHeader = () => {
+    const {showOnlyStared} = this.state;
+    const {search} = this.state;
 
+    return (
+      <Header
+        search={search}
+        updateSearch={this.handelSearch}
+        onFilter={this.showOnlyStaredRepos}
+        filterTitle={showOnlyStared ? 'Stared' : 'Filter'}
+      />
+    );
+  };
   renderRepoItem(repo: Repo, index: number) {
     return (
       <ListItem
+        onPress={() => this.handleNavigation(index)}
         key={index.toString()}
         isStared={repo.stared}
         onStarPressed={() => this.handleStarRepo(repo.id)}
@@ -72,13 +124,22 @@ export class RepoContainer extends Component<Props> {
   }
 
   render() {
-    const {appLoading, appError} = this.props;
+    const {appLoading, appError, repos} = this.props;
+    const {showOnlyStared, search} = this.state;
+    let data = (showOnlyStared
+      ? repos.filter(repo => repo.stared === true)
+      : repos
+    ).filter(repo => repo.name.toLowerCase().includes(search.toLowerCase()));
+
+    if (data.length === 0 && !appLoading) {
+      return <Error message="No repos to show" />;
+    }
     return (
       <ScreenContainer appLoading={appLoading} appError={appError}>
         <View style={styles.container}>
           <List
             loadMore={this.handleLoadMore}
-            data={this.props.repos}
+            data={data}
             renderItem={this.renderRepoItem}
             ListFooterComponent={this.renderListFooter}
           />

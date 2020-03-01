@@ -27,6 +27,8 @@ export const fetchRepos = (url: string) => async (dispatch: Function) => {
       stargazers_count: item.stargazers_count,
       avatar_url: item.owner.avatar_url,
       stared: false,
+      watchers_count: item.watchers_count,
+      forks_count: item.forks_count,
     }));
     const nextPageUrl = getNextPageUrl(res.headers.link);
     console.log({nextPageUrl});
@@ -57,6 +59,8 @@ export const loadMore = (url: string) => async (dispatch: Function) => {
       stargazers_count: item.stargazers_count,
       avatar_url: item.owner.avatar_url,
       stared: false,
+      watchers_count: item.watchers_count,
+      forks_count: item.forks_count,
     }));
     const nextPageUrl = getNextPageUrl(res.headers.link);
     console.log({nextPageUrl});

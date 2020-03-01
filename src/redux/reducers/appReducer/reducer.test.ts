@@ -6,6 +6,7 @@ describe('appReducer', () => {
     const initialState = {
       loading: false,
       error: '',
+      loadingMore: false,
     };
     const newState = appReducer(undefined, {});
     expect(newState).toEqual(initialState);

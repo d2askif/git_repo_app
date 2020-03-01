@@ -46,6 +46,8 @@ describe('Repo staring', () => {
           avatar_url: '',
           description: '',
           stared: false,
+          forks_count: 0,
+          watchers_count: 0,
         },
         {
           id: 2,
@@ -54,6 +56,8 @@ describe('Repo staring', () => {
           name: '',
           avatar_url: '',
           description: '',
+          forks_count: 0,
+          watchers_count: 0,
         },
       ],
     };
@@ -85,6 +89,8 @@ describe('Repo unstar a repo', () => {
           avatar_url: '',
           description: '',
           stared: true,
+          forks_count: 0,
+          watchers_count: 0,
         },
         {
           id: 2,
@@ -93,6 +99,8 @@ describe('Repo unstar a repo', () => {
           name: '',
           avatar_url: '',
           description: '',
+          forks_count: 0,
+          watchers_count: 0,
         },
       ],
     };
