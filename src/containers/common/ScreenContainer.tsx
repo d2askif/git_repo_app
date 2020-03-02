@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import Spinner from '../../components/common/spinner';
+import Error from '../../components/common/Error';
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -24,7 +25,9 @@ export default class ScreenContainer extends Component<Props> {
   renderAppLoading() {
     return <Spinner />;
   }
-  renderAppError() {}
+  renderAppError(message: string) {
+    return <Error message={message} />;
+  }
 
   renderMain() {
     const {appLoading, appError} = this.props;
@@ -32,7 +35,7 @@ export default class ScreenContainer extends Component<Props> {
       return this.renderAppLoading();
     }
     if (appError !== '') {
-      this.renderAppError();
+      return this.renderAppError(appError);
     }
     return this.props.children;
   }

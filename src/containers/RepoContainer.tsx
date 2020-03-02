@@ -131,8 +131,8 @@ export class RepoContainer extends Component<Props, RepoState> {
       : repos
     ).filter(repo => repo.name.toLowerCase().includes(search.toLowerCase()));
 
-    if (data.length === 0 && !appLoading) {
-      return <Error message="No repos to show" />;
+    if (data.length === 0 && !appLoading && !appError) {
+      return <Error message="No repos to show !" />;
     }
     return (
       <ScreenContainer appLoading={appLoading} appError={appError}>

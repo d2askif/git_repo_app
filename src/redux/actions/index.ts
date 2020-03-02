@@ -17,29 +17,40 @@ export const fetchRepos = (url: string) => async (dispatch: Function) => {
     type: types.APP_LOADING,
     payload: true,
   });
-  await Axios.get(url).then(res => {
-    const repos: Repo = res.data.items.map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      stargazers_count: item.stargazers_count,
-      avatar_url: item.owner.avatar_url,
-      stared: false,
-      watchers_count: item.watchers_count,
-      forks_count: item.forks_count,
-      html_url: item.html_url,
-    }));
-    const nextPageUrl = getNextPageUrl(res.headers.link);
+  await Axios.get(url)
+    .then(res => {
+      const repos: Repo = res.data.items.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        stargazers_count: item.stargazers_count,
+        avatar_url: item.owner.avatar_url,
+        stared: false,
+        watchers_count: item.watchers_count,
+        forks_count: item.forks_count,
+        html_url: item.html_url,
+      }));
+      const nextPageUrl = getNextPageUrl(res.headers.link);
 
-    dispatch({
-      type: types.APP_LOADING,
-      payload: false,
+      dispatch({
+        type: types.APP_LOADING,
+        payload: false,
+      });
+      dispatch({
+        type: types.GET_REPOS,
+        payload: {repos, nextPageUrl},
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: types.APP_LOADING,
+        payload: false,
+      });
+      dispatch({
+        type: types.APP_ERROR,
+        payload: Error(error).message,
+      });
     });
-    dispatch({
-      type: types.GET_REPOS,
-      payload: {repos, nextPageUrl},
-    });
-  });
 };
 
 export const loadMore = (url: string) => async (dispatch: Function) => {
@@ -47,28 +58,39 @@ export const loadMore = (url: string) => async (dispatch: Function) => {
     type: types.APP_LOADING_MORE,
     payload: true,
   });
-  await Axios.get(url).then(res => {
-    const repos: Repo = res.data.items.map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      stargazers_count: item.stargazers_count,
-      avatar_url: item.owner.avatar_url,
-      stared: false,
-      watchers_count: item.watchers_count,
-      forks_count: item.forks_count,
-    }));
-    const nextPageUrl = getNextPageUrl(res.headers.link);
+  await Axios.get(url)
+    .then(res => {
+      const repos: Repo = res.data.items.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        stargazers_count: item.stargazers_count,
+        avatar_url: item.owner.avatar_url,
+        stared: false,
+        watchers_count: item.watchers_count,
+        forks_count: item.forks_count,
+      }));
+      const nextPageUrl = getNextPageUrl(res.headers.link);
 
-    dispatch({
-      type: types.APP_LOADING_MORE,
-      payload: false,
+      dispatch({
+        type: types.APP_LOADING_MORE,
+        payload: false,
+      });
+      dispatch({
+        type: types.GET_MORE_REPOS,
+        payload: {repos, nextPageUrl},
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: types.APP_LOADING,
+        payload: false,
+      });
+      dispatch({
+        type: types.APP_ERROR,
+        payload: Error(error).message,
+      });
     });
-    dispatch({
-      type: types.GET_MORE_REPOS,
-      payload: {repos, nextPageUrl},
-    });
-  });
 };
 
 export const starRepo = (id: number) => (dispatch: Function) => {
