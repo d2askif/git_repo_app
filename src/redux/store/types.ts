@@ -24,3 +24,16 @@ export type State = {
   repositories: Repository;
   app: App;
 };
+
+export const initialState: State = {
+  app: {
+    loading: false,
+    error: '',
+    loadingMore: false,
+  },
+  repositories: {
+    repos: [],
+    nextPage: '',
+    url: 'https://api.github.com/search/repositories?q=stars:>0',
+  },
+};

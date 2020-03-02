@@ -57,9 +57,8 @@ interface Props {
   onStarPressed: () => void;
   avatar_url: string;
   name: string;
-  description?: String;
+  description: String;
   stargazers_count: number;
-  repo_name?: string;
   isStared: boolean;
   onPress: () => void;
 }

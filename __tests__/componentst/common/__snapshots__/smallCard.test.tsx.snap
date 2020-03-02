@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SmallCard 1`] = `
+<View
+  style={Object {}}
+>
+  <Text
+    style={
+      Object {
+        "color": "#6D7195",
+        "fontSize": 20,
+        "opacity": 0.8,
+      }
+    }
+  >
+    title
+  </Text>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "#D7BFB6",
+            "fontSize": 15,
+          },
+          undefined,
+          Object {
+            "fontFamily": "FontAwesome",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#999BB1",
+          "marginLeft": 4,
+        }
+      }
+    >
+      label
+    </Text>
+  </View>
+</View>
+`;

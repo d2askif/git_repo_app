@@ -18,8 +18,6 @@ export const fetchRepos = (url: string) => async (dispatch: Function) => {
     payload: true,
   });
   await Axios.get(url).then(res => {
-    console.log(res);
-
     const repos: Repo = res.data.items.map((item: any) => ({
       id: item.id,
       name: item.name,
@@ -31,7 +29,6 @@ export const fetchRepos = (url: string) => async (dispatch: Function) => {
       forks_count: item.forks_count,
     }));
     const nextPageUrl = getNextPageUrl(res.headers.link);
-    console.log({nextPageUrl});
 
     dispatch({
       type: types.APP_LOADING,
@@ -50,8 +47,6 @@ export const loadMore = (url: string) => async (dispatch: Function) => {
     payload: true,
   });
   await Axios.get(url).then(res => {
-    console.log(res);
-
     const repos: Repo = res.data.items.map((item: any) => ({
       id: item.id,
       name: item.name,
@@ -63,7 +58,6 @@ export const loadMore = (url: string) => async (dispatch: Function) => {
       forks_count: item.forks_count,
     }));
     const nextPageUrl = getNextPageUrl(res.headers.link);
-    console.log({nextPageUrl});
 
     dispatch({
       type: types.APP_LOADING_MORE,
