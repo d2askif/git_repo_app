@@ -27,6 +27,7 @@ export const fetchRepos = (url: string) => async (dispatch: Function) => {
       stared: false,
       watchers_count: item.watchers_count,
       forks_count: item.forks_count,
+      html_url: item.html_url,
     }));
     const nextPageUrl = getNextPageUrl(res.headers.link);
 

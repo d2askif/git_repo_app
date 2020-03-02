@@ -7,6 +7,7 @@ export type Repo = {
   watchers_count: number;
   forks_count: number;
   stared: boolean;
+  html_url: string;
 };
 
 export type App = {

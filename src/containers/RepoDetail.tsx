@@ -105,10 +105,12 @@ interface Props {
 
 export default class RepoDetail extends Component<Props> {
   ShareMessage = () => {
+    const {repo} = this.props.route.params;
+
     const shareOptions = {
-      title: 'Share file',
+      title: repo.html_url,
       failOnCancel: false,
-      message: 'http:www',
+      message: repo.html_url,
     };
     Share.open(shareOptions);
   };
