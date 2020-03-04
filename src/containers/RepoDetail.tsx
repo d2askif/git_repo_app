@@ -161,6 +161,7 @@ export default class RepoDetail extends Component<Props> {
               paddingBottom: 32,
             }}>
             <Button
+              testID="share"
               onPress={this.ShareMessage}
               title="Share repo"
               buttonStyle={{

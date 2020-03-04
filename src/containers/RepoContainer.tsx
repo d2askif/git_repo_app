@@ -107,6 +107,7 @@ export class RepoContainer extends Component<Props, RepoState> {
   renderRepoItem(repo: Repo, index: number) {
     return (
       <ListItem
+        testID={'listItem' + index.toString()}
         onPress={() => this.handleNavigation(index)}
         key={index.toString()}
         isStared={repo.stared}
@@ -135,9 +136,14 @@ export class RepoContainer extends Component<Props, RepoState> {
       return <Error message="No repos to show !" />;
     }
     return (
-      <ScreenContainer appLoading={appLoading} appError={appError}>
+      <ScreenContainer
+        testId="RepoContainer"
+        appLoading={appLoading}
+        appError={appError}>
         <View style={styles.container}>
           <List
+            refresh={appError !== ''}
+            onRefresh={() => this.props.getRepos(this.props.url)}
             loadMore={this.handleLoadMore}
             data={data}
             renderItem={this.renderRepoItem}

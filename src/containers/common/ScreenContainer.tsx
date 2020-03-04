@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 interface Props {
   appLoading: boolean;
   appError: string;
+  testId: string;
 }
 
 export default class ScreenContainer extends Component<Props> {
@@ -41,7 +42,9 @@ export default class ScreenContainer extends Component<Props> {
   }
   render() {
     return (
-      <SafeAreaView style={styles.safeArea}>{this.renderMain()}</SafeAreaView>
+      <SafeAreaView testID={this.props.testId} style={styles.safeArea}>
+        {this.renderMain()}
+      </SafeAreaView>
     );
   }
 }

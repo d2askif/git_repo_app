@@ -61,6 +61,7 @@ interface Props {
   stargazers_count: number;
   isStared: boolean;
   onPress: () => void;
+  testID: string;
 }
 
 const listItem = ({
@@ -71,9 +72,10 @@ const listItem = ({
   stargazers_count,
   onStarPressed,
   onPress,
+  testID,
 }: Props) => {
   return (
-    <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
+    <TouchableOpacity activeOpacity={0.5} onPress={onPress} testID={testID}>
       <View style={styles.container}>
         <View style={styles.avatar_name}>
           <View style={styles.avatar}>

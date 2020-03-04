@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
 const header = ({updateSearch, search, onFilter, filterTitle}: Props) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="header">
       <View style={styles.title_container}>
         <View style={{flex: 1}} />
         <View style={styles.center}>
@@ -76,6 +76,7 @@ const header = ({updateSearch, search, onFilter, filterTitle}: Props) => {
         </View>
       </View>
       <SearchBar
+        testID="searchBar"
         onChangeText={updateSearch}
         value={search}
         containerStyle={styles.searchBar_container}

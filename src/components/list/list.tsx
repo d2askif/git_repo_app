@@ -29,6 +29,8 @@ type Props = {
   ListFooterComponent: Function;
   loadMore: () => void;
   style?: any;
+  refresh: boolean;
+  onRefresh: Function;
 };
 
 const SelectList = ({
@@ -36,6 +38,8 @@ const SelectList = ({
   renderItem,
   loadMore,
   ListFooterComponent,
+  refresh,
+  onRefresh,
 }: Props) => (
   <View style={styles.container}>
     <FlatList
@@ -46,6 +50,8 @@ const SelectList = ({
       ListHeaderComponent={() => <View style={styles.header} />}
       ListFooterComponent={ListFooterComponent()}
       scrollEnabled
+      refreshing={refresh}
+      onRefresh={() => onRefresh()}
       showsVerticalScrollIndicator={false}
       horizontal={false}
       contentContainerStyle={[styles.content]}
